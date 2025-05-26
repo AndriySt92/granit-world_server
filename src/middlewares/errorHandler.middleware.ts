@@ -9,7 +9,7 @@ interface IErrorResponse {
   stack?: string;
 }
 
-export const errorHandler: ErrorRequestHandler = (err, _req, res, _next): void => {
+const errorHandler: ErrorRequestHandler = (err, _req, res, _next): void => {
   if (err instanceof CustomError) {
     res.status(err.status || 500).json({
       status: "error",
@@ -31,3 +31,5 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next): void =
     ...(errorResponse.stack && { stack: errorResponse.stack }),
   });
 };
+
+export default errorHandler;

@@ -5,6 +5,7 @@ import express from "express";
 
 import connectDB from "./config/connectDb";
 import { errorHandler } from "./middlewares";
+import AuhtRoute from "./routes/auth.route";
 import { CustomError } from "./utils";
 
 dotenv.config();
@@ -21,6 +22,8 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/api/auth", AuhtRoute);
 
 app.all("*", (req, _res, next): void => {
   const error = new CustomError(`Route ${req.originalUrl} not found`, 404);

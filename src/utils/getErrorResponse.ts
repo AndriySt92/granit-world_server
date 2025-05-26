@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const createErrorResponse = (message = "An error ogcured", status = 500) => ({ status, message });
 
-export const getErrorResponse = (error: unknown) => {
+const getErrorResponse = (error: unknown) => {
   if (error instanceof mongoose.Error.ValidationError) {
     const errors = Object.values(error.errors).map((val) => val.message);
     const errorMessages = errors.join(". ");
@@ -27,3 +27,5 @@ export const getErrorResponse = (error: unknown) => {
 
   return createErrorResponse();
 };
+
+export default getErrorResponse;
