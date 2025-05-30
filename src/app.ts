@@ -1,14 +1,11 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import dotenv from "dotenv";
 import express from "express";
 
 import connectDB from "./config/connectDb";
 import { errorHandler } from "./middlewares";
-import { AuthRoutes, ProductRoutes } from "./routes";
+import { AuthRoutes, ContactRoutes, ProductRoutes } from "./routes";
 import { CustomError } from "./utils";
-
-dotenv.config();
 
 const app = express();
 
@@ -25,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", AuthRoutes);
 app.use("/api/products", ProductRoutes);
+app.use("/api/contact", ContactRoutes);
 
 app.all("*", (req, _res, next): void => {
   const error = new CustomError(`Route ${req.originalUrl} not found`, 404);
