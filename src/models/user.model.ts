@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 
-import { IUser } from "../types/user.interface";
+import { User } from "../types/user.interface";
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -22,6 +22,11 @@ const userSchema = new mongoose.Schema({
     minlength: [6, "Password must be at least 6 characters"],
     maxlength: [50, "Password must be at least 50 characters"],
   },
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
+  },
 });
 
 userSchema.pre("save", async function (next) {
@@ -31,6 +36,6 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-const User = mongoose.model<IUser>("User", userSchema);
+const User = mongoose.model<User>("User", userSchema);
 
 export default User;

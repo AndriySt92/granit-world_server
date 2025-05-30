@@ -5,9 +5,9 @@ import AuthService from "../services/auth.service";
 const login = async (req: Request, res: Response): Promise<void> => {
   const loginData = req.body;
 
-  const result = await AuthService.login(loginData, res);
+  const user = await AuthService.login(loginData, res);
 
-  res.json({ status: "success", message: result.message });
+  res.json({ status: "success", data: user });
 };
 
 const logout = (_req: Request, res: Response): void => {
@@ -15,7 +15,12 @@ const logout = (_req: Request, res: Response): void => {
   res.status(200).json({ status: "success", message: "Logged out successfully" });
 };
 
+export const current = async (req: Request, res: Response) => {
+  res.json({ status: "success", data: req.user });
+};
+
 export default {
   login,
   logout,
+  current,
 };

@@ -2,11 +2,12 @@ import bcrypt from "bcryptjs";
 import { Response } from "express";
 
 import { LoginData } from "../dto";
-import User from "../models/user.model";
+import UserModel from "../models/user.model";
+import type { User } from "../types";
 import { CustomError, generateTokenAndSetCookie } from "../utils";
 
-const login = async (loginData: LoginData, res: Response): Promise<{ message: string }> => {
-  const user = await User.findOne({ email: loginData.email });
+const login = async (loginData: LoginData, res: Response): Promise<User> => {
+  const user = await UserModel.findOne({ email: loginData.email });
 
   if (!user) {
     throw new CustomError("Invalid username or password", 400);
@@ -19,8 +20,10 @@ const login = async (loginData: LoginData, res: Response): Promise<{ message: st
   }
 
   generateTokenAndSetCookie({ userId: user._id, res });
+  // Exclude the password from the user object before returning
+  const { password: _password, ...userWithoutPassword } = user.toObject();
 
-  return { message: "Logined successfully" };
+  return userWithoutPassword as User;
 };
 
 export default {
