@@ -1,11 +1,12 @@
 import { Document } from "mongoose";
 
-export interface IUser extends Document {
-  _id: string;
+export interface User extends Document {
   email: string;
   password: string;
+  role: "user" | "admin";
+  username: string;
 }
 
-export interface IDecodedToken {
+export interface DecodedToken {
   userId: string;
 }
